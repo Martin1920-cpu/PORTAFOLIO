@@ -1,0 +1,252 @@
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: sans-serif;
+    }
+
+    body {
+        background-color: rgba(54, 54, 54, 0.411);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .contenedor {
+        position: relative;
+        width: 100%;
+        max-width: 870px;
+        min-height: 1250px;
+        margin: 40px;
+        background-color: white;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        box-shadow: 0 35px 55px rgba(0, 0, 0, 0.1);
+    }
+
+    @media(max-width: 600px){
+        .contenedor{
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .contenedor .seccion {
+        position: relative;
+        background-color: #e48d1b;
+        padding: 40px;
+    }
+
+    .Perfiltexto {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 20px;
+    }
+
+    .Perfil .imagenP {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .Perfil .imagenP img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .lineas {
+        position: absolute;
+        width: 50%;   
+        background-repeat: repeat-y;
+        margin-left: -2.5rem;      
+        margin-top: -1px;
+    }
+
+    @media(max-width: 600px){
+        .lineas{
+            width: 32%;
+        }
+    }
+
+    hr {
+        margin-top: 1px;
+        border: none;
+        height: 3px;
+        background-color: rgb(53, 51, 51); 
+    }
+
+    .Perfiltexto h1 {
+        color: rgb(71, 71, 71);
+        font-size: 1.9em;
+        margin-top: 5px;
+        text-transform: uppercase;
+        text-align: left;
+        font-weight: 700;
+        line-height: 1.3em;
+
+    }
+
+    .Perfiltexto h1 span {
+        font-size: 0.8em;
+        font-weight: 300;
+    }
+
+    .Infoper {
+        padding-top: 35px
+    }
+
+    .Infoper .icono {
+        position: relative;
+        width: 100%;
+        padding-top: -rem;
+
+        margin: 4px 0;
+        color: #f7f7f7;
+
+    }
+
+    .Infoper ul {
+        position: relative;
+    }
+
+    .Infoper ul li {
+
+        position: relative;
+        list-style: none;
+        margin: 4px 0;
+        cursor: pointer;
+        color: #f7f7f7;
+    }
+
+    .alinear {
+        width: 100%;
+        padding-left: 1rem;
+        padding-top: 0;
+        margin: 4px 0;
+        color: #f7f7f7;
+    }
+
+    .alinear2,
+    .alinear3,
+    .alinear5,
+    .alinear6,
+    .alinear7,
+    .alinear8,
+    .alinear9 {
+        width: 100%;
+        padding-left: 1rem;
+        padding-top: 0;
+        margin: 4px 0;
+        color: #000000;
+    }
+
+    .progress-bar {
+        width: 10%;
+        height: 0.4rem;
+        margin-top: -1rem;
+        background-color: #f7f7f7;
+        position: absolute;
+    }
+
+    .progress-bar2 {
+        width: 4%;
+        height: 0.3rem;
+        margin-top: 6%;
+        background-color: #e48d1b;
+        position: relative;
+    }
+
+    .informat .progress-bar,
+    .cur .progress-bar,
+    .res .progress-bar,
+    .his .progress-bar {
+        width: 4%;
+        height: 0.3rem;
+        margin-top: 6%;
+        background-color: #e48d1b;
+        position: relative;
+    }
+
+    .his .Historial,
+    .res .Resumen,
+    .cur .Cursos,
+    .Informatica {
+        position: relative;
+        width: 18rem;
+        padding-top: -rem;
+
+        margin: 4px 0;
+        color: #e48d1b;
+    }
+
+    .leng .Lenguas {
+        position: relative;
+        width: 1rem;
+        padding-top: -rem;
+
+        margin: 4px 0;
+        color: #e48d1b;
+
+    }
+
+    .contenedor .seccionDe {
+        position: adsolute;
+        background-color: white;
+        padding: 40px;
+    }
+
+    .infodecontac {
+        padding-top: 20px;
+    }
+
+    .icono {
+        color: black;
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+    }
+
+    .infodecontac ul {
+        position: relative;
+    }
+
+    .infodecontac ul li {
+
+        position: relative;
+        list-style: none;
+        margin: 10px 0;
+        cursor: pointer;
+
+    }
+
+    .infodecontac .Texto {
+        position: relative;
+        margin-left: 0.5rem;
+    }
+
+    .img1{
+        width: 15px;
+        height: 15px;
+    }
+
+    .img2{
+        width: 15px;
+        height: 15px;
+    }
+
+    .img3{
+        width: 15px;
+        height: 15px;
+    }
