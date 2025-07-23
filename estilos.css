@@ -30,5 +30,16 @@ body{
     justify-content: space-between;
     padding: 30px;
     margin-top: 20px;
-    
+    background-color: rgb(237, 241, 221);
+    color:  rgb(128, 161, 142);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#b1, #b2, #b3{
+border-radius: 10px;
+padding: 10px;
+color: rgb(128, 161, 142);
+border: 1px solid  rgb(103, 129, 114);;
 }
