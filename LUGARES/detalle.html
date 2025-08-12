@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalle del Lugar</title>
+  <link rel="stylesheet" href="estilos.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-detalle {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      padding: 32px 40px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      transition: background 0.5s;
+    }
+    .card-detalle img {
+      border-radius: 12px;
+      margin-bottom: 20px;
+      max-width: 100%;
+      height: auto;
+    }
+    .card-detalle h2 {
+      margin-bottom: 16px;
+    }
+    .card-detalle p {
+      margin-bottom: 12px;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="card-detalle" id="detalle"></div>
+  <script>
+  const lugar = JSON.parse(localStorage.getItem('lugarSeleccionado'));
+  if (lugar) {
+    document.getElementById('detalle').innerHTML = `
+      <h2>${lugar.nombre}</h2>
+      <img src="${lugar.url_imagen}" alt="${lugar.nombre}">
+      <p><strong>Ciudad:</strong> ${lugar.ciudad}</p>
+      <p><strong>País:</strong> ${lugar.pais}</p>
+      <p><strong>Descripción:</strong> ${lugar.descripcion || 'Sin descripción.'}</p>
+      <p><strong>Coordenadas:</strong> Latitud ${lugar.coordenadas.latitud}, Longitud ${lugar.coordenadas.longitud}</p>
+      <h3>Datos Interesantes:</h3>
+      <ul>
+        ${lugar.datosInteresantes.map(d => `<li>${d.titulo}: ${d.valor}</li>`).join('')}
+      </ul>
+      <h3>Actividades Recomendadas:</h3>
+      <ul>
+        ${lugar.actividadesRecomendadas.map(a => `<li>${a}</li>`).join('')}
+      </ul>
+      <p><strong>Categoría:</strong> ${lugar.categoria.nombre}</p>
+    `;
+
+    document.querySelector('.card-detalle').style.background = 
+      `linear-gradient(135deg, ${lugar.categoria.colorPrimario}, ${lugar.categoria.colorSecundario})`;
+    document.querySelector('.card-detalle').style.border = 
+      `2px solid ${lugar.categoria.colorPrimario}`;
+  } else {
+    document.getElementById('detalle').innerHTML = '<p>No hay información disponible.</p>';
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Lugares Turísticos - Cards</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <h1 style="text-align:center; margin-top:24px;">Lugares Turísticos del Mundo</h1>
+  <div class="container" id="cards"></div>
+  <script>
+    fetch('lugares.json')
+      .then(res => res.json())
+      .then(lugares => {
+        const container = document.getElementById('cards');
+lugares.forEach(lugar => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.style.borderColor = lugar.categoria.colorPrimario;
+  card.style.background = `linear-gradient(135deg, ${lugar.categoria.colorPrimario}, ${lugar.categoria.colorSecundario})`;
+
+  card.innerHTML = `
+    <img class="card-img" src="${lugar.url_imagen}" alt="${lugar.nombre}">
+    <div class="card-title">${lugar.nombre}</div>
+    <div class="card-pais">${lugar.pais}</div>
+    <div class="card-ciudad">${lugar.ciudad}</div>
+  `;
+  card.onclick = () => {
+    localStorage.setItem('lugarSeleccionado', JSON.stringify(lugar));
+    window.open('detalle.html', '_blank');
+  };
+  container.appendChild(card);
+});
+      });
+  </script>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
