@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Mesas - Restaurante</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6580 100%);
+            min-height: 100vh;
+            padding-top: 20px;
+            padding-bottom: 50px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .container-main {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .mesa-disponible { 
+            background-color: #d4edda; 
+            border-left: 4px solid #28a745; 
+        }
+        .mesa-ocupada { 
+            background-color: #d1ecf1; 
+            border-left: 4px solid #17a2b8; 
+        }
+        .mesa-deshabilitada { 
+            background-color: #343a40; 
+            color: white; 
+            border-left: 4px solid #6c757d; 
+        }
+        .mesa-card { 
+            transition: all 0.3s; 
+            margin-bottom: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .mesa-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2); 
+        }
+        
+        .btn-outline-light {
+            border: 2px solid white;
+            color: white;
+            font-weight: 500;
+        }
+        
+        .btn-outline-light:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .page-title {
+            color: #2c3e50;
+            font-weight: 600;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .badge {
+            font-weight: 500;
+            padding: 0.5em 0.8em;
+        }
+        
+        .modal-content {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, #2c3e50, #4a6580);
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(to right, #243342, #3a546f);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="container-main">
+            <div class="header py-3 mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1 class="h3 mb-0"><i class="fas fa-table me-2"></i>Gestión de Mesas</h1>
+                    <a href="reservas.html" class="btn btn-outline-light btn-sm">
+                        <i class="fas fa-calendar-check me-1"></i>Ir a Reservas
+                    </a>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="h4 page-title">Mesas del Restaurante</h2>
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalMesa">
+                    <i class="fas fa-plus me-1"></i>Agregar Mesa
+                </button>
+            </div>
+
+            <div class="row" id="contenedor-mesas">
+                <!-- Las mesas se cargarán aquí con JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para agregar/editar mesa -->
+    <div class="modal fade" id="modalMesa" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalMesaTitulo">Agregar Nueva Mesa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formMesa">
+                        <input type="hidden" id="mesaId">
+                        <div class="mb-3">
+                            <label for="mesaCapacidad" class="form-label">Capacidad</label>
+                            <input type="number" class="form-control" id="mesaCapacidad" min="1" required>
+                            <div class="form-text text-danger" id="errorCapacidad"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mesaUbicacion" class="form-label">Ubicación</label>
+                            <select class="form-select" id="mesaUbicacion" required>
+                                <option value="">Seleccione una ubicación</option>
+                                <option value="Ventana">Ventana</option>
+                                <option value="Jardín">Jardín</option>
+                                <option value="Terraza">Terraza</option>
+                                <option value="Interior">Interior</option>
+                                <option value="Privado">Privado</option>
+                            </select>
+                            <div class="form-text text-danger" id="errorUbicacion"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mesaEstado" class="form-label">Estado</label>
+                            <select class="form-select" id="mesaEstado" required>
+                                <option value="disponible">Disponible</option>
+                                <option value="ocupada">Ocupada</option>
+                                <option value="deshabilitada">Deshabilitada</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnGuardarMesa">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Inicializar datos si no existen
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('mesas')) {
+                const mesasIniciales = [
+                    { id: 'mesa1', capacidad: 2, ubicacion: 'Ventana', estado: 'disponible' },
+                    { id: 'mesa2', capacidad: 4, ubicacion: 'Ventana', estado: 'disponible' },
+                    { id: 'mesa3', capacidad: 6, ubicacion: 'Jardín', estado: 'disponible' },
+                    { id: 'mesa4', capacidad: 4, ubicacion: 'Interior', estado: 'disponible' },
+                    { id: 'mesa5', capacidad: 2, ubicacion: 'Terraza', estado: 'disponible' },
+                    { id: 'mesa6', capacidad: 8, ubicacion: 'Privado', estado: 'disponible' }
+                ];
+                localStorage.setItem('mesas', JSON.stringify(mesasIniciales));
+            }
+            renderizarMesas();
+        });
+
+        let mesas = JSON.parse(localStorage.getItem('mesas') || '[]');
+        let modalMesa = new bootstrap.Modal(document.getElementById('modalMesa'));
+
+        function renderizarMesas() {
+            const contenedor = document.getElementById('contenedor-mesas');
+            contenedor.innerHTML = '';
+            
+            mesas.forEach(mesa => {
+                const claseEstado = `mesa-${mesa.estado}`;
+                const coloresEstado = {
+                    'disponible': 'success',
+                    'ocupada': 'info', 
+                    'deshabilitada': 'dark'
+                };
+                
+                const col = document.createElement('div');
+                col.className = 'col-md-6 col-lg-4';
+                col.innerHTML = `
+                    <div class="card mesa-card ${claseEstado}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="card-title mb-0">Mesa ${mesa.id}</h5>
+                                <span class="badge bg-${coloresEstado[mesa.estado]}">${mesa.estado}</span>
+                            </div>
+                            <p class="card-text mb-1"><i class="fas fa-users me-1"></i>Capacidad: ${mesa.capacidad}</p>
+                            <p class="card-text"><i class="fas fa-map-marker-alt me-1"></i>Ubicación: ${mesa.ubicacion}</p>
+                            <div class="d-flex justify-content-end gap-2">
+                                <button class="btn btn-sm btn-outline-primary btn-editar-mesa" data-id="${mesa.id}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-success btn-reservar-mesa" data-id="${mesa.id}">
+                                    <i class="fas fa-calendar-plus"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger btn-eliminar-mesa" data-id="${mesa.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                contenedor.appendChild(col);
+            });
+            
+            // Event listeners para los botones
+            document.querySelectorAll('.btn-editar-mesa').forEach(btn => {
+                btn.addEventListener('click', () => abrirModalMesa(btn.getAttribute('data-id')));
+            });
+            
+            document.querySelectorAll('.btn-eliminar-mesa').forEach(btn => {
+                btn.addEventListener('click', () => eliminarMesa(btn.getAttribute('data-id')));
+            });
+            
+            document.querySelectorAll('.btn-reservar-mesa').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const mesaId = btn.getAttribute('data-id');
+                    window.location.href = `reservas.html?mesa=${mesaId}`;
+                });
+            });
+        }
+
+        function abrirModalMesa(id = null) {
+            const form = document.getElementById('formMesa');
+            form.reset();
+            
+            if (id) {
+                document.getElementById('modalMesaTitulo').textContent = 'Editar Mesa';
+                const mesa = mesas.find(m => m.id === id);
+                if (mesa) {
+                    document.getElementById('mesaId').value = mesa.id;
+                    document.getElementById('mesaCapacidad').value = mesa.capacidad;
+                    document.getElementById('mesaUbicacion').value = mesa.ubicacion;
+                    document.getElementById('mesaEstado').value = mesa.estado;
+                }
+            } else {
+                document.getElementById('modalMesaTitulo').textContent = 'Agregar Nueva Mesa';
+            }
+            
+            modalMesa.show();
+        }
+
+        document.getElementById('btnGuardarMesa').addEventListener('click', () => {
+            const id = document.getElementById('mesaId').value;
+            const capacidad = document.getElementById('mesaCapacidad').value;
+            const ubicacion = document.getElementById('mesaUbicacion').value;
+            const estado = document.getElementById('mesaEstado').value;
+            
+            // Validaciones
+            let esValido = true;
+            document.getElementById('errorCapacidad').textContent = '';
+            document.getElementById('errorUbicacion').textContent = '';
+            
+            if (!capacidad || capacidad < 1) {
+                document.getElementById('errorCapacidad').textContent = 'La capacidad debe ser mayor a 0';
+                esValido = false;
+            }
+            
+            if (!ubicacion) {
+                document.getElementById('errorUbicacion').textContent = 'Seleccione una ubicación';
+                esValido = false;
+            }
+            
+            if (!esValido) return;
+            
+            if (id) {
+                // Editar mesa existente
+                const index = mesas.findIndex(m => m.id === id);
+                if (index !== -1) {
+                    mesas[index] = { id, capacidad: parseInt(capacidad), ubicacion, estado };
+                }
+            } else {
+                // Crear nueva mesa
+                const nuevoId = 'mesa' + (mesas.length + 1);
+                mesas.push({
+                    id: nuevoId,
+                    capacidad: parseInt(capacidad),
+                    ubicacion,
+                    estado
+                });
+            }
+            
+            localStorage.setItem('mesas', JSON.stringify(mesas));
+            renderizarMesas();
+            modalMesa.hide();
+        });
+
+        function eliminarMesa(id) {
+            if (confirm('¿Está seguro de eliminar esta mesa?')) {
+                mesas = mesas.filter(m => m.id !== id);
+                localStorage.setItem('mesas', JSON.stringify(mesas));
+                renderizarMesas();
+            }
+        }
+
+        // Botón para agregar mesa
+        document.querySelector('[data-bs-target="#modalMesa"]').addEventListener('click', () => {
+            abrirModalMesa();
+        });
+    </script>
+</body>
+</html>
